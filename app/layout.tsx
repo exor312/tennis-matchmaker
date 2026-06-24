@@ -3,8 +3,8 @@ import "./globals.css";
 import BottomNav from "@/components/shared/BottomNav";
 
 export const metadata: Metadata = {
-  title: "Tennis Matchmaker",
-  description: "Auto-matchmaking for tennis open play sessions",
+  title: "MATCHMAKER",
+  description: "Tennis open play matchmaking",
 };
 
 export default function RootLayout({
@@ -14,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-        <main className="mx-auto max-w-md px-4 pb-20 pt-8">
+      <body style={{ backgroundColor: "#0a0a0a", minHeight: "100vh", margin: 0 }}>
+        <main className="max-w-lg mx-auto px-4">
           {children}
         </main>
         <BottomNav />

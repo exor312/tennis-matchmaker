@@ -2,6 +2,33 @@
 
 import { revalidatePath } from "next/cache";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { randomPairing, skillBasedPairing, roundRobin } from "@/lib/matchmaking/engine";
+import type { Player, Match } from "@/types";
+
+export async function getActiveSession() {
+  const supabase = await createSupabaseServer();
+
+  const { data } = await supabase
+    .from("sessions")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  return data;
+}
+
+export async function getSessionPlayers(sessionId: string) {
+  const supabase = await createSupabaseServer();
+
+  const { data } = await supabase
+    .from("players")
+    .select("*")
+    .eq("session_id", sessionId)
+    .order("created_at", { ascending: true });
+
+  return data || [];
+}
 
 export async function getMatches(sessionId: string) {
   const supabase = await createSupabaseServer();
@@ -88,4 +115,74 @@ export async function submitScore(formData: FormData) {
   revalidatePath("/score");
   revalidatePath("/summary");
   return { success: true };
+}
+
+export async function createMatches(formData: FormData) {
+  const supabase = await createSupabaseServer();
+
+  // Get the most recent active session
+  const { data: session } = await supabase
+    .from("sessions")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (!session) throw new Error("No active session");
+
+  const sessionId = session.id;
+
+  // Get all players in this session
+  const { data: players } = await supabase
+    .from("players")
+    .select("*")
+    .eq("session_id", sessionId)
+    .order("created_at", { ascending: true });
+
+  if (!players || players.length < 2) throw new Error("Need at least 2 players");
+
+  const typedPlayers: Player[] = players;
+  const format = session.format;
+  const mode = session.mode;
+
+  // Generate pairings based on mode
+  let pairings;
+  if (mode === "random") {
+    pairings = randomPairing(typedPlayers, format);
+  } else if (mode === "skill") {
+    pairings = skillBasedPairing(typedPlayers, format);
+  } else {
+    // round-robin
+    const playerIds = typedPlayers.map((p) => p.id);
+    const rounds = roundRobin(playerIds);
+    pairings = rounds.map(([p1, p2]) => ({
+      player1_id: p1,
+      player2_id: p2,
+      player3_id: null,
+      player4_id: null,
+    }));
+  }
+
+  // Insert matches into DB
+  const matchesToInsert = pairings.map((p) => ({
+    session_id: sessionId,
+    player1_id: p.player1_id,
+    player2_id: p.player2_id,
+    player3_id: p.player3_id,
+    player4_id: p.player4_id,
+    format,
+    status: "pending" as const,
+  }));
+
+  const { data: createdMatches, error } = await supabase
+    .from("matches")
+    .insert(matchesToInsert)
+    .select();
+
+  if (error) {
+    console.error("Error creating matches:", error.message);
+    return;
+  }
+
+  revalidatePath("/score");
 }

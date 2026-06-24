@@ -13,34 +13,167 @@
     "purpose": "Automate tennis matchmaking during open play sessions. Players check in, system auto-pairs them based on selected mode (random, skill-based, round-robin), tracks game-level scores, and produces a daily summary with win/loss records.",
     "target_user": "Tennis club organizers and casual open-play groups",
     "pages": [
-      { "route": "/", "name": "Check-in", "auth_required": false, "description": "Player enters name, selects format, joins the active session" },
-      { "route": "/setup", "name": "Session Setup", "auth_required": false, "description": "Configure matchmaking mode, format, session type" },
-      { "route": "/score", "name": "Score Entry", "auth_required": false, "description": "View active matches, enter scores" },
-      { "route": "/summary", "name": "Daily Summary", "auth_required": false, "description": "End-of-day leaderboard, match results, W/L records" }
+      {
+        "route": "/",
+        "name": "Check-in",
+        "auth_required": false,
+        "description": "Player enters name, selects format, joins the active session"
+      },
+      {
+        "route": "/setup",
+        "name": "Session Setup",
+        "auth_required": false,
+        "description": "Configure matchmaking mode, format, session type"
+      },
+      {
+        "route": "/score",
+        "name": "Score Entry",
+        "auth_required": false,
+        "description": "View active matches, enter scores"
+      },
+      {
+        "route": "/summary",
+        "name": "Daily Summary",
+        "auth_required": false,
+        "description": "End-of-day leaderboard, match results, W/L records"
+      }
     ],
     "features": [
-      { "id": "F001", "name": "Player Check-in", "description": "Enter name, self-rate skill, join pool", "pages_involved": ["/"] },
-      { "id": "F002", "name": "Matchmaking Modes", "description": "Random, skill-based, round-robin", "pages_involved": ["/setup", "/"] },
-      { "id": "F003", "name": "Format Support", "description": "Singles, Doubles, Mix", "pages_involved": ["/setup", "/"] },
-      { "id": "F004", "name": "Game-level Scoring", "description": "Track per-game scores within a match", "pages_involved": ["/score"] },
-      { "id": "F005", "name": "Daily Summary", "description": "Results + leaderboard + W/L records", "pages_involved": ["/summary"] },
-      { "id": "F006", "name": "Session Types", "description": "Drop-in or scheduled block", "pages_involved": ["/setup"] }
+      {
+        "id": "F001",
+        "name": "Player Check-in",
+        "description": "Enter name, self-rate skill, join pool",
+        "pages_involved": [
+          "/"
+        ]
+      },
+      {
+        "id": "F002",
+        "name": "Matchmaking Modes",
+        "description": "Random, skill-based, round-robin",
+        "pages_involved": [
+          "/setup",
+          "/"
+        ]
+      },
+      {
+        "id": "F003",
+        "name": "Format Support",
+        "description": "Singles, Doubles, Mix",
+        "pages_involved": [
+          "/setup",
+          "/"
+        ]
+      },
+      {
+        "id": "F004",
+        "name": "Game-level Scoring",
+        "description": "Track per-game scores within a match",
+        "pages_involved": [
+          "/score"
+        ]
+      },
+      {
+        "id": "F005",
+        "name": "Daily Summary",
+        "description": "Results + leaderboard + W/L records",
+        "pages_involved": [
+          "/summary"
+        ]
+      },
+      {
+        "id": "F006",
+        "name": "Session Types",
+        "description": "Drop-in or scheduled block",
+        "pages_involved": [
+          "/setup"
+        ]
+      }
     ],
-    "auth": { "required": false, "strategy": "none", "providers": [] },
+    "auth": {
+      "required": false,
+      "strategy": "none",
+      "providers": []
+    },
     "entities": [
-      { "name": "sessions", "fields": ["id uuid", "name text", "mode text", "format text", "session_type text", "doubles_team_policy text", "starts_at timestamptz", "ends_at timestamptz", "created_at timestamptz"] },
-      { "name": "players", "fields": ["id uuid", "name text", "skill_level integer", "session_id uuid", "created_at timestamptz"] },
-      { "name": "matches", "fields": ["id uuid", "session_id uuid", "player1_id uuid", "player2_id uuid", "player3_id uuid", "player4_id uuid", "format text", "status text", "created_at timestamptz"] },
-      { "name": "match_scores", "fields": ["id uuid", "match_id uuid", "set_number integer", "player1_games integer", "player2_games integer", "tiebreak_score text", "created_at timestamptz"] },
-      { "name": "match_results", "fields": ["id uuid", "match_id uuid", "winner_ids uuid[]", "loser_ids uuid[]", "sets_won_player1 integer", "sets_won_player2 integer", "created_at timestamptz"] }
+      {
+        "name": "sessions",
+        "fields": [
+          "id uuid",
+          "name text",
+          "mode text",
+          "format text",
+          "session_type text",
+          "doubles_team_policy text",
+          "starts_at timestamptz",
+          "ends_at timestamptz",
+          "created_at timestamptz"
+        ]
+      },
+      {
+        "name": "players",
+        "fields": [
+          "id uuid",
+          "name text",
+          "skill_level integer",
+          "session_id uuid",
+          "created_at timestamptz"
+        ]
+      },
+      {
+        "name": "matches",
+        "fields": [
+          "id uuid",
+          "session_id uuid",
+          "player1_id uuid",
+          "player2_id uuid",
+          "player3_id uuid",
+          "player4_id uuid",
+          "format text",
+          "status text",
+          "created_at timestamptz"
+        ]
+      },
+      {
+        "name": "match_scores",
+        "fields": [
+          "id uuid",
+          "match_id uuid",
+          "set_number integer",
+          "player1_games integer",
+          "player2_games integer",
+          "tiebreak_score text",
+          "created_at timestamptz"
+        ]
+      },
+      {
+        "name": "match_results",
+        "fields": [
+          "id uuid",
+          "match_id uuid",
+          "winner_ids uuid[]",
+          "loser_ids uuid[]",
+          "sets_won_player1 integer",
+          "sets_won_player2 integer",
+          "created_at timestamptz"
+        ]
+      }
     ],
     "realtime_needed": false,
     "realtime_features": [],
     "external_integrations": [],
     "open_questions": [],
     "decisions": [
-      { "id": "D001", "question": "Skill level method", "decision": "Self-rated at check-in (1-5 scale)" },
-      { "id": "D002", "question": "Doubles team assignment", "decision": "Configurable per session: fixed-for-session OR re-match-each-round" }
+      {
+        "id": "D001",
+        "question": "Skill level method",
+        "decision": "Self-rated at check-in (1-5 scale)"
+      },
+      {
+        "id": "D002",
+        "question": "Doubles team assignment",
+        "decision": "Configurable per session: fixed-for-session OR re-match-each-round"
+      }
     ]
   },
   "architecture": {
@@ -58,19 +191,138 @@
       "integrations": []
     },
     "route_map": [
-      { "route": "/", "render": "static", "auth_required": false, "page_file": "app/page.tsx", "description": "Landing" },
-      { "route": "/checkin", "render": "client", "auth_required": false, "page_file": "app/checkin/page.tsx", "description": "Player check-in" },
-      { "route": "/setup", "render": "client", "auth_required": false, "page_file": "app/setup/page.tsx", "description": "Session setup" },
-      { "route": "/score", "render": "client", "auth_required": false, "page_file": "app/score/page.tsx", "description": "Score entry list" },
-      { "route": "/score/[matchId]", "render": "client", "auth_required": false, "page_file": "app/score/[matchId]/page.tsx", "description": "Detailed scoring" },
-      { "route": "/summary", "render": "client", "auth_required": false, "page_file": "app/summary/page.tsx", "description": "Daily summary" }
+      {
+        "route": "/",
+        "render": "static",
+        "auth_required": false,
+        "page_file": "app/page.tsx",
+        "description": "Landing"
+      },
+      {
+        "route": "/checkin",
+        "render": "client",
+        "auth_required": false,
+        "page_file": "app/checkin/page.tsx",
+        "description": "Player check-in"
+      },
+      {
+        "route": "/setup",
+        "render": "client",
+        "auth_required": false,
+        "page_file": "app/setup/page.tsx",
+        "description": "Session setup"
+      },
+      {
+        "route": "/score",
+        "render": "client",
+        "auth_required": false,
+        "page_file": "app/score/page.tsx",
+        "description": "Score entry list"
+      },
+      {
+        "route": "/score/[matchId]",
+        "render": "client",
+        "auth_required": false,
+        "page_file": "app/score/[matchId]/page.tsx",
+        "description": "Detailed scoring"
+      },
+      {
+        "route": "/summary",
+        "render": "client",
+        "auth_required": false,
+        "page_file": "app/summary/page.tsx",
+        "description": "Daily summary"
+      }
     ],
     "db_schema": [
-      { "table": "sessions", "columns": ["id uuid PK", "name text NOT NULL", "mode text NOT NULL", "format text NOT NULL", "session_type text NOT NULL", "doubles_team_policy text DEFAULT 'fixed'", "starts_at timestamptz", "ends_at timestamptz", "created_at timestamptz DEFAULT now()"], "rls": false, "realtime": false, "indexes": ["created_at"] },
-      { "table": "players", "columns": ["id uuid PK", "name text NOT NULL", "skill_level integer NOT NULL DEFAULT 3", "session_id uuid FK→sessions.id", "created_at timestamptz DEFAULT now()"], "rls": false, "realtime": false, "indexes": ["session_id"] },
-      { "table": "matches", "columns": ["id uuid PK", "session_id uuid FK→sessions.id", "player1_id uuid FK→players.id", "player2_id uuid FK→players.id", "player3_id uuid FK→players.id", "player4_id uuid FK→players.id", "format text NOT NULL", "status text DEFAULT 'pending'", "created_at timestamptz DEFAULT now()"], "rls": false, "realtime": false, "indexes": ["session_id", "status"] },
-      { "table": "match_scores", "columns": ["id uuid PK", "match_id uuid FK→matches.id", "set_number integer NOT NULL", "player1_games integer NOT NULL DEFAULT 0", "player2_games integer NOT NULL DEFAULT 0", "tiebreak_score text", "created_at timestamptz DEFAULT now()"], "rls": false, "realtime": false, "indexes": ["match_id"] },
-      { "table": "match_results", "columns": ["id uuid PK", "match_id uuid FK→matches.id", "winner_ids uuid[]", "loser_ids uuid[]", "sets_won_player1 integer", "sets_won_player2 integer", "created_at timestamptz DEFAULT now()"], "rls": false, "realtime": false, "indexes": ["match_id"] }
+      {
+        "table": "sessions",
+        "columns": [
+          "id uuid PK",
+          "name text NOT NULL",
+          "mode text NOT NULL",
+          "format text NOT NULL",
+          "session_type text NOT NULL",
+          "doubles_team_policy text DEFAULT 'fixed'",
+          "starts_at timestamptz",
+          "ends_at timestamptz",
+          "created_at timestamptz DEFAULT now()"
+        ],
+        "rls": false,
+        "realtime": false,
+        "indexes": [
+          "created_at"
+        ]
+      },
+      {
+        "table": "players",
+        "columns": [
+          "id uuid PK",
+          "name text NOT NULL",
+          "skill_level integer NOT NULL DEFAULT 3",
+          "session_id uuid FK\u2192sessions.id",
+          "created_at timestamptz DEFAULT now()"
+        ],
+        "rls": false,
+        "realtime": false,
+        "indexes": [
+          "session_id"
+        ]
+      },
+      {
+        "table": "matches",
+        "columns": [
+          "id uuid PK",
+          "session_id uuid FK\u2192sessions.id",
+          "player1_id uuid FK\u2192players.id",
+          "player2_id uuid FK\u2192players.id",
+          "player3_id uuid FK\u2192players.id",
+          "player4_id uuid FK\u2192players.id",
+          "format text NOT NULL",
+          "status text DEFAULT 'pending'",
+          "created_at timestamptz DEFAULT now()"
+        ],
+        "rls": false,
+        "realtime": false,
+        "indexes": [
+          "session_id",
+          "status"
+        ]
+      },
+      {
+        "table": "match_scores",
+        "columns": [
+          "id uuid PK",
+          "match_id uuid FK\u2192matches.id",
+          "set_number integer NOT NULL",
+          "player1_games integer NOT NULL DEFAULT 0",
+          "player2_games integer NOT NULL DEFAULT 0",
+          "tiebreak_score text",
+          "created_at timestamptz DEFAULT now()"
+        ],
+        "rls": false,
+        "realtime": false,
+        "indexes": [
+          "match_id"
+        ]
+      },
+      {
+        "table": "match_results",
+        "columns": [
+          "id uuid PK",
+          "match_id uuid FK\u2192matches.id",
+          "winner_ids uuid[]",
+          "loser_ids uuid[]",
+          "sets_won_player1 integer",
+          "sets_won_player2 integer",
+          "created_at timestamptz DEFAULT now()"
+        ],
+        "rls": false,
+        "realtime": false,
+        "indexes": [
+          "match_id"
+        ]
+      }
     ],
     "type_contracts": {
       "Session": "{ id: string; name: string; mode: 'random' | 'skill' | 'round-robin'; format: 'singles' | 'doubles' | 'mix'; session_type: 'drop-in' | 'scheduled'; doubles_team_policy: 'fixed' | 'rematch'; starts_at: string | null; ends_at: string | null; created_at: string }",
@@ -83,41 +335,378 @@
   "supabase": {
     "project_url": "https://xnbtwnfcxxuduhyrrxao.supabase.co",
     "project_ref": "xnbtwnfcxxuduhyrrxao",
-    "tables": ["sessions", "players", "matches", "match_scores", "match_results"],
+    "tables": [
+      "sessions",
+      "players",
+      "matches",
+      "match_scores",
+      "match_results"
+    ],
     "migration_file": "supabase/migrations/001_initial_schema.sql",
     "rls_enabled": false,
     "status": "provisioned"
   },
   "uiux": {
-    "design_file": "docs/design.md",
+    "design_file": "docs/design-v2.md",
     "status": "completed",
-    "decisions": ["Japanese Muji aesthetic", "Muted teal primary", "No auth", "Mobile-first bottom nav", "Zustand for client state"]
+    "decisions": [
+      "Sporty modern aesthetic \u2014 Nike/Strava energy",
+      "Bold black canvas #0a0a0a + neon green #22c55e + amber #f59e0b",
+      "Landing \u2192 bracket \u2192 score \u2192 leaderboard flow",
+      "Bottom nav with 3 tabs: Bracket | Score | Standings",
+      "Inline match scoring (no separate detail page)",
+      "Dark theme throughout, no white surfaces",
+      "Inter Black/Extrabold display, tabular-nums for scores"
+    ]
   },
   "tickets": [
-    { "ticket_id": "WEB-001", "title": "Config files (next.config, tsconfig, tailwind)", "type": "config", "file_path": "next.config.ts", "depends_on": [], "can_parallel_with": ["WEB-002", "WEB-003", "WEB-004"], "status": "in_progress", "retry_count": 0 },
-    { "ticket_id": "WEB-002", "title": "TypeScript types", "type": "types", "file_path": "types/index.ts", "depends_on": [], "can_parallel_with": ["WEB-001", "WEB-003", "WEB-004"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-003", "title": "lib/utils + validations", "type": "lib", "file_path": "lib/utils.ts", "depends_on": [], "can_parallel_with": ["WEB-001", "WEB-002", "WEB-004"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-004", "title": "Supabase clients", "type": "lib", "file_path": "lib/supabase/client.ts", "depends_on": [], "can_parallel_with": ["WEB-001", "WEB-002", "WEB-003"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-005", "title": "globals.css + theme", "type": "frontend", "file_path": "app/globals.css", "depends_on": ["WEB-001", "WEB-002"], "can_parallel_with": ["WEB-006", "WEB-007"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-006", "title": "Root layout + navigation", "type": "frontend", "file_path": "app/layout.tsx", "depends_on": ["WEB-001", "WEB-002"], "can_parallel_with": ["WEB-005", "WEB-007"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-007", "title": "Bottom nav component", "type": "component", "file_path": "components/shared/BottomNav.tsx", "depends_on": ["WEB-005"], "can_parallel_with": ["WEB-005", "WEB-006", "WEB-008", "WEB-009"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-008", "title": "Zustand stores", "type": "config", "file_path": "lib/stores/session.ts", "depends_on": ["WEB-002", "WEB-003"], "can_parallel_with": ["WEB-007", "WEB-009"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-009", "title": "Matchmaking engine", "type": "lib", "file_path": "lib/matchmaking/engine.ts", "depends_on": ["WEB-002", "WEB-003"], "can_parallel_with": ["WEB-007", "WEB-008"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-010", "title": "Landing page", "type": "frontend", "file_path": "app/page.tsx", "depends_on": ["WEB-006"], "can_parallel_with": ["WEB-011", "WEB-012", "WEB-013"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-011", "title": "Setup page + actions", "type": "backend", "file_path": "app/setup/page.tsx", "depends_on": ["WEB-004", "WEB-006"], "can_parallel_with": ["WEB-010", "WEB-012", "WEB-013"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-012", "title": "Check-in page + actions", "type": "backend", "file_path": "app/checkin/page.tsx", "depends_on": ["WEB-004", "WEB-006"], "can_parallel_with": ["WEB-010", "WEB-011", "WEB-013"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-013", "title": "Score page + actions", "type": "backend", "file_path": "app/score/page.tsx", "depends_on": ["WEB-004", "WEB-006"], "can_parallel_with": ["WEB-010", "WEB-011", "WEB-012"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-014", "title": "Score detail page", "type": "backend", "file_path": "app/score/[matchId]/page.tsx", "depends_on": ["WEB-004", "WEB-006"], "can_parallel_with": ["WEB-013"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-015", "title": "Summary page + actions", "type": "backend", "file_path": "app/summary/page.tsx", "depends_on": ["WEB-004", "WEB-006"], "can_parallel_with": ["WEB-014"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-016", "title": "shadcn/ui components", "type": "component", "file_path": "components/ui/button.tsx", "depends_on": ["WEB-001"], "can_parallel_with": ["WEB-005", "WEB-006"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-017", "title": "Mode card selector", "type": "component", "file_path": "components/matchmaking/MatchmakingModeCard.tsx", "depends_on": ["WEB-016"], "can_parallel_with": ["WEB-018", "WEB-019"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-018", "title": "Player queue component", "type": "component", "file_path": "components/matchmaking/PlayerQueue.tsx", "depends_on": ["WEB-016"], "can_parallel_with": ["WEB-017", "WEB-019"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-019", "title": "Score entry form", "type": "component", "file_path": "components/scoring/ScoreEntryForm.tsx", "depends_on": ["WEB-016"], "can_parallel_with": ["WEB-017", "WEB-018"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-020", "title": "Leaderboard table", "type": "component", "file_path": "components/summary/LeaderboardTable.tsx", "depends_on": ["WEB-016"], "can_parallel_with": ["WEB-017", "WEB-018", "WEB-019"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-021", "title": "Match result card", "type": "component", "file_path": "components/summary/MatchResultCard.tsx", "depends_on": ["WEB-016"], "can_parallel_with": ["WEB-017", "WEB-018", "WEB-019", "WEB-020"], "status": "pending", "retry_count": 0 },
-    { "ticket_id": "WEB-022", "title": "package.json + .env", "type": "config", "file_path": "package.json", "depends_on": ["WEB-001"], "can_parallel_with": ["WEB-016"], "status": "pending", "retry_count": 0 }
+    {
+      "ticket_id": "WEB-001",
+      "title": "globals.css \u2014 dark theme tokens",
+      "type": "frontend",
+      "file_path": "app/globals.css",
+      "depends_on": [],
+      "can_parallel_with": [
+        "WEB-002",
+        "WEB-003"
+      ],
+      "description": "Replace light theme tokens with dark sporty palette. Nan green primary, amber accent, pure black canvas, white/5 borders. Remove mesh-gradient class. Add glow ring utilities.",
+      "inputs": {
+        "design_file": "docs/design-v2.md"
+      },
+      "acceptance_criteria": [
+        "--background: #0a0a0a",
+        "--primary: #22c55e",
+        "--accent: #f59e0b",
+        "All color tokens match design-v2.md"
+      ],
+      "estimated_lines": 60,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-002",
+      "title": "app/layout.tsx \u2014 dark shell + bottom nav",
+      "type": "frontend",
+      "file_path": "app/layout.tsx",
+      "depends_on": [
+        "WEB-001"
+      ],
+      "can_parallel_with": [
+        "WEB-003",
+        "WEB-004"
+      ],
+      "description": "Rebuild layout: dark body bg, conditional BottomNav (hidden on entry screen), MATCHMAKER top bar with session badge. Remove max-w-md padding logic, use full-width max-w-lg container.",
+      "inputs": {
+        "routes": [
+          "/bracket",
+          "/score",
+          "/standings"
+        ],
+        "entry_route": "/"
+      },
+      "acceptance_criteria": [
+        "Dark background renders",
+        "BottomNav hidden on / entry",
+        "Top bar with app label",
+        "Session badge visible when active"
+      ],
+      "estimated_lines": 80,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-003",
+      "title": "BottomNav component \u2014 sporty dark tabs",
+      "type": "component",
+      "file_path": "components/shared/BottomNav.tsx",
+      "depends_on": [
+        "WEB-001"
+      ],
+      "can_parallel_with": [
+        "WEB-002",
+        "WEB-004",
+        "WEB-005"
+      ],
+      "description": "Rebuild BottomNav: dark surface with top border, 3 tabs (Bracket, Score, Standings), green active state, SVG icons, sticky bottom, safe-area inset.",
+      "inputs": {
+        "design": "dark theme sporty tabs"
+      },
+      "acceptance_criteria": [
+        "3 tabs with icons",
+        "Active green highlight",
+        "Sticky bottom-0",
+        "Safe area padding bottom",
+        "Hidden on entry route"
+      ],
+      "estimated_lines": 60,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-004",
+      "title": "MatchCard component",
+      "type": "component",
+      "file_path": "components/shared/MatchCard.tsx",
+      "depends_on": [
+        "WEB-001"
+      ],
+      "can_parallel_with": [
+        "WEB-003",
+        "WEB-005"
+      ],
+      "description": "Shared match card component used across Bracket and Score views. Supports: default (green glow), pending (muted), completed (amber score). Player names, score display, status badge, expand action for scoring.",
+      "inputs": {
+        "design": "dark card with border-glow variants"
+      },
+      "acceptance_criteria": [
+        "Props: match, variant (active/pending/completed), expanded, onScore",
+        "Active variant has green glow border",
+        "Score display with tabular-nums",
+        "Status badge component inline"
+      ],
+      "estimated_lines": 90,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-005",
+      "title": "StatusBadge + ActionButton components",
+      "type": "component",
+      "file_path": "components/shared/StatusBadge.tsx",
+      "depends_on": [
+        "WEB-001"
+      ],
+      "can_parallel_with": [
+        "WEB-004",
+        "WEB-006"
+      ],
+      "description": "StatusBadge: Live/Pending/Completed pill badges per design spec. ActionButton: Primary (green), Secondary (white/5), Destructive variants. All rounded-full.",
+      "inputs": {
+        "design": "status badges and buttons spec"
+      },
+      "acceptance_criteria": [
+        "3 status badge variants with correct colors",
+        "3 button variants with correct colors",
+        "All rounded-full",
+        "Uppercase text with tracking-wide"
+      ],
+      "estimated_lines": 50,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-006",
+      "title": "app/page.tsx \u2014 entry / landing",
+      "type": "frontend",
+      "file_path": "app/page.tsx",
+      "depends_on": [
+        "WEB-002",
+        "WEB-005"
+      ],
+      "can_parallel_with": [
+        "WEB-007",
+        "WEB-008",
+        "WEB-009"
+      ],
+      "description": "Rebuild entry screen: large MATCHMAKER title, name input (dark), green ENTER button. Auto-creates or joins session. No nav until in session. Route replace to /bracket on submit.",
+      "inputs": {
+        "design": "entry screen spec"
+      },
+      "acceptance_criteria": [
+        "No bottom nav visible",
+        "Dark themed input with green focus",
+        "Full-width green CTA button",
+        "Router.replace to /bracket after joining",
+        "No scroll \u2014 centered vertically"
+      ],
+      "estimated_lines": 70,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-007",
+      "title": "app/bracket/page.tsx \u2014 bracket view",
+      "type": "frontend",
+      "file_path": "app/bracket/page.tsx",
+      "depends_on": [
+        "WEB-002",
+        "WEB-004"
+      ],
+      "can_parallel_with": [
+        "WEB-006",
+        "WEB-008",
+        "WEB-009"
+      ],
+      "description": "Bracket page: tournament bracket display from match data. Horizontal scrollable queue at top. Match cards in bracket layout. Pull-to-refresh. Auto-highlight current player's matches.",
+      "inputs": {
+        "store": "useMatchStore",
+        "design": "bracket view spec"
+      },
+      "acceptance_criteria": [
+        "Renders matches as MatchCard components",
+        "Queue pills horizontally scrollable at top",
+        "Current player matches highlighted green",
+        "Empty state with pulsing dot",
+        "Pull-to-refresh works"
+      ],
+      "estimated_lines": 100,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-008",
+      "title": "app/score/page.tsx \u2014 score view with inline entry",
+      "type": "frontend",
+      "file_path": "app/score/page.tsx",
+      "depends_on": [
+        "WEB-002",
+        "WEB-004"
+      ],
+      "can_parallel_with": [
+        "WEB-006",
+        "WEB-007",
+        "WEB-009"
+      ],
+      "description": "Score page: list of player's matches. Active matches have expandable inline score entry. Quick-score buttons (6-0, 6-1, 6-2, 6-3, 6-4, 7-5, 7-6) + custom option. Submit collapses and shows confirmation.",
+      "inputs": {
+        "store": "useMatchStore"
+      },
+      "acceptance_criteria": [
+        "Lists player's matches only",
+        "Active matches expand to score entry",
+        "Quick score buttons functional",
+        "Custom score toggle",
+        "Submit collapses with green flash",
+        "Empty state when no matches"
+      ],
+      "estimated_lines": 150,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-009",
+      "title": "app/standings/page.tsx \u2014 leaderboard",
+      "type": "frontend",
+      "file_path": "app/standings/page.tsx",
+      "depends_on": [
+        "WEB-002"
+      ],
+      "can_parallel_with": [
+        "WEB-006",
+        "WEB-007",
+        "WEB-008"
+      ],
+      "description": "Standings/leaderboard: ranked table with #, Player, W, L, Win%. Current player highlighted with green left border. Tabular-nums for all numbers. Pull-to-refresh.",
+      "inputs": {
+        "store": "useMatchStore.getLeaderboard()"
+      },
+      "acceptance_criteria": [
+        "Ranked table sorted by win%",
+        "Current player row green highlight",
+        "Tabular nums on W/L/Win%",
+        "Pull-to-refresh",
+        "Empty state when no completed matches"
+      ],
+      "estimated_lines": 80,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-010",
+      "title": "API: bracket, standings, join",
+      "type": "backend",
+      "file_path": "app/api/bracket/route.ts",
+      "depends_on": [
+        "WEB-004"
+      ],
+      "can_parallel_with": [
+        "WEB-007",
+        "WEB-008",
+        "WEB-009"
+      ],
+      "description": "New API routes: GET /api/bracket (matches for display), GET /api/standings (leaderboard data), POST /api/join (simplified session join). Update existing /api/session and /api/session/[id] routes to auto-create sessions.",
+      "inputs": {
+        "stores": "useSessionStore + useMatchStore"
+      },
+      "acceptance_criteria": [
+        "GET /api/bracket returns matches with player info",
+        "GET /api/standings returns ranked array",
+        "POST /api/join creates/joins session",
+        "Auto-session-create if none exists"
+      ],
+      "estimated_lines": 120,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-011",
+      "title": "Zustand stores update for v2 flow",
+      "type": "config",
+      "file_path": "lib/stores/session.ts",
+      "depends_on": [
+        "WEB-010"
+      ],
+      "can_parallel_with": [
+        "WEB-006",
+        "WEB-007",
+        "WEB-008",
+        "WEB-009"
+      ],
+      "description": "Update session store: remove setup-related fields, add currentPlayer. Update match store: add bracket computation, simplified scoring, leaderboard. Remove separate match detail page logic.",
+      "inputs": {
+        "flow_v2": "true"
+      },
+      "acceptance_criteria": [
+        "session store has currentPlayer field",
+        "match store has getBracket() and getLeaderboard()",
+        "Simplified scoring accepts quick-score presets",
+        "No leftover /setup or /score/[id] references"
+      ],
+      "estimated_lines": 100,
+      "status": "pending",
+      "retry_count": 0
+    },
+    {
+      "ticket_id": "WEB-012",
+      "title": "Remove old routes: /setup, /checkin, /score/[id], /summary",
+      "type": "config",
+      "file_path": "app/setup/page.tsx",
+      "depends_on": [
+        "WEB-006",
+        "WEB-007",
+        "WEB-008",
+        "WEB-009"
+      ],
+      "can_parallel_with": [],
+      "description": "Delete old route files: /setup/page.tsx, /checkin/page.tsx, /checkin/actions.ts, /score/[matchId]/page.tsx, /summary/page.tsx, /summary/actions.ts. Delete old components: MatchmakingModeCard, PlayerQueue, ScoreEntryForm, LeaderboardTable, MatchResultCard. Keep BottomNav, and components from new design.",
+      "inputs": {
+        "remove": [
+          "setup",
+          "checkin",
+          "score/[mid]",
+          "summary"
+        ],
+        "keep": [
+          "components/shared/MatchCard",
+          "components/shared/StatusBadge",
+          "components/shared/BottomNav"
+        ]
+      },
+      "acceptance_criteria": [
+        "No /setup, /checkin, /score/[id], /summary routes exist",
+        "Build passes without old route imports",
+        "Old component files removed"
+      ],
+      "estimated_lines": 0,
+      "status": "pending",
+      "retry_count": 0
+    }
   ],
-  "code": { "files_written": [], "status": "in_progress" },
+  "code": {
+    "files_written": [],
+    "status": "in_progress"
+  },
   "review": null,
   "build": null,
   "deploy": null,

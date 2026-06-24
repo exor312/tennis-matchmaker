@@ -1,35 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: hsl(30, 20%, 97%);
-  --foreground: hsl(220, 15%, 15%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(220, 15%, 15%);
-  --primary: hsl(174, 42%, 38%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(30, 15%, 93%);
-  --secondary-foreground: hsl(220, 15%, 15%);
-  --muted: hsl(30, 10%, 90%);
-  --muted-foreground: hsl(220, 10%, 55%);
-  --accent: hsl(174, 30%, 90%);
-  --accent-foreground: hsl(174, 42%, 25%);
-  --border: hsl(30, 10%, 88%);
-  --success: hsl(142, 42%, 45%);
-  --warning: hsl(35, 82%, 55%);
-  --destructive: hsl(0, 72%, 50%);
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --surface: #141414;
+  --surface-hover: #1a1a1a;
+  --card: #141414;
+  --card-foreground: #ffffff;
+  --primary: #22c55e;
+  --primary-foreground: #000000;
+  --secondary: rgba(255,255,255,0.05);
+  --secondary-foreground: #ffffff;
+  --muted: rgba(255,255,255,0.05);
+  --muted-foreground: #888888;
+  --accent: #f59e0b;
+  --accent-foreground: #000000;
+  --accent-muted: rgba(245,158,11,0.15);
+  --border: rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.12);
+  --destructive: #ef4444;
+  --primary-glow: rgba(34,197,94,0.25);
   --radius: 0.75rem;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Mesh gradient background */
-.mesh-gradient {
-  background-image:
-    radial-gradient(at 20% 20%, hsl(174, 42%, 38%, 0.08) 0px, transparent 50%),
-    radial-gradient(at 80% 20%, hsl(35, 82%, 55%, 0.06) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, hsl(174, 42%, 38%, 0.05) 0px, transparent 50%);
+/* Utility: horizontal scroll no scrollbar */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Utility: pulsing dot for loading states */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Utility: green glow ring */
+.glow-green {
+  box-shadow: 0 0 0 1px var(--primary-glow), 0 0 12px rgba(34,197,94,0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
