@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: hsl(30, 20%, 97%);
+  --foreground: hsl(220, 15%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(220, 15%, 15%);
+  --primary: hsl(174, 42%, 38%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(30, 15%, 93%);
+  --secondary-foreground: hsl(220, 15%, 15%);
+  --muted: hsl(30, 10%, 90%);
+  --muted-foreground: hsl(220, 10%, 55%);
+  --accent: hsl(174, 30%, 90%);
+  --accent-foreground: hsl(174, 42%, 25%);
+  --border: hsl(30, 10%, 88%);
+  --success: hsl(142, 42%, 45%);
+  --warning: hsl(35, 82%, 55%);
+  --destructive: hsl(0, 72%, 50%);
+  --radius: 0.75rem;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Mesh gradient background */
+.mesh-gradient {
+  background-image:
+    radial-gradient(at 20% 20%, hsl(174, 42%, 38%, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, hsl(35, 82%, 55%, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, hsl(174, 42%, 38%, 0.05) 0px, transparent 50%);
 }
